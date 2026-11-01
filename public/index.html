@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>방명록</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <h1>방명록</h1>
+    <p class="subtitle">방문해 주셔서 감사합니다. 한마디 남겨주세요!</p>
+
+    <form id="entry-form" class="card" novalidate>
+      <div class="field">
+        <label for="name">이름</label>
+        <input id="name" name="name" type="text" maxlength="20" autocomplete="name" placeholder="이름 (최대 20자)">
+        <span class="counter" id="name-counter">0 / 20</span>
+      </div>
+      <div class="field">
+        <label for="message">메시지</label>
+        <textarea id="message" name="message" maxlength="500" rows="4" placeholder="메시지 (최대 500자)"></textarea>
+        <span class="counter" id="message-counter">0 / 500</span>
+      </div>
+      <p id="form-error" class="error" role="alert" aria-live="assertive"></p>
+      <button type="submit" id="submit-btn">등록</button>
+    </form>
+
+    <section aria-labelledby="list-title">
+      <h2 id="list-title">작성된 글</h2>
+      <p id="empty" class="empty" hidden>아직 작성된 글이 없습니다</p>
+      <ul id="entry-list" class="entry-list"></ul>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
