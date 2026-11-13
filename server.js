@@ -5,15 +5,25 @@ const path = require('path');
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
-const DATA_FILE = path.join(__dirname, 'data', 'entries.json');
+const DATA_FILE = process.env.DATA_FILE || path.join(__dirname, 'data', 'entries.json');
 const MAX_NAME = 20;
 const MAX_MESSAGE = 500;
 
 // ---- 저장소 (FR-09: 파일에 저장해 재시작/재접속 후에도 유지) ----
 function loadEntries() {
+  let raw;
   try {
-    return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+    raw = fs.readFileSync(DATA_FILE, 'utf8');
   } catch {
+    return []; // 파일이 아직 없음 = 첫 실행
+  }
+  try {
+    return JSON.parse(raw);
+  } catch {
+    // 파일이 깨졌으면 덮어써서 기존 글을 잃지 않도록 백업해 둔다
+    const backup = `${DATA_FILE}.corrupt-${Date.now()}`;
+    fs.renameSync(DATA_FILE, backup);
+    console.warn(`저장 파일이 손상되어 ${backup} 으로 백업했습니다.`);
     return [];
   }
 }
